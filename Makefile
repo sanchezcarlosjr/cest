@@ -32,7 +32,7 @@ bin/kernel.iso: bin/kernel.bin
 bin/kernel.bin: src/linker.ld $(OBJ_FILES) $(OBJ_ASSEMBLER_FILES)
 	ld $(LINKER_PARAMS) -T $< -o $@ $(OBJ_FILES) $(OBJ_ASSEMBLER_FILES)
 
-run-first:
+first-time:
 	sudo apt-get -y install g++ binutils libc6-dev-i386 VirtualBox grub-legacy xorriso
 	bin/kernel.iso
 	(killall VirtualBox && sleep 1) || true
