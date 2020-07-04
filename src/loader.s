@@ -8,25 +8,20 @@
     .long CHECKSUM
 
 .section .text
-.extern kernelMain
-.extern callConstructors
+.extern kernel
 .global loader
-
 
 loader:
     mov $kernel_stack, %esp
-    call callConstructors
     push %eax
     push %ebx
-    call kernelMain
-
+    call kernel
 
 _stop:
     cli
     hlt
     jmp _stop
 
-
 .section .bss
-.space 2*1024*1024; # 2 MiB
+.space 2*1024*1024;
 kernel_stack:

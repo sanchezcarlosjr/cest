@@ -11,10 +11,6 @@ Port::~Port()
 {
 }
 
-
-
-
-
 Port8Bit::Port8Bit(uint16_t portnumber)
     : Port(portnumber)
 {

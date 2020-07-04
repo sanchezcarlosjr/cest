@@ -8,7 +8,7 @@ CPPFLAGS := -m32 -fno-use-cxa-atexit -nostdlib -fno-builtin -fno-rtti -fno-excep
 LINKER_PARAMS := -melf_i386
 
 $(OBJ_DIR)/%.o: $(SRC_DIR)/%.cpp
-	gcc $(CPPFLAGS) -c -o $@ $<
+	g++ $(CPPFLAGS) -c -o $@ $<
 
 $(OBJ_DIR)/%.o: $(SRC_DIR)/%.s
 	as --32 -o $@ $<
@@ -18,6 +18,7 @@ bin/kernel.iso: bin/kernel.bin
 	mkdir iso/boot
 	mkdir iso/boot/grub
 	cp bin/kernel.bin iso/boot/kernel.bin
+	rm -rf bin/*
 	echo 'set timeout=0'                      > iso/boot/grub/grub.cfg
 	echo 'set default=0'                     >> iso/boot/grub/grub.cfg
 	echo ''                                  >> iso/boot/grub/grub.cfg
@@ -27,7 +28,7 @@ bin/kernel.iso: bin/kernel.bin
 	echo '}'                                 >> iso/boot/grub/grub.cfg
 	grub-mkrescue --output=bin/kernel.iso iso
 	rm -rf iso
-	rm bin/kernel.bin
+	rm -rf  obj/*
 
 bin/kernel.bin: src/linker.ld $(OBJ_FILES) $(OBJ_ASSEMBLER_FILES)
 	ld $(LINKER_PARAMS) -T $< -o $@ $(OBJ_FILES) $(OBJ_ASSEMBLER_FILES)
