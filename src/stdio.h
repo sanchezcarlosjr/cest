@@ -49,18 +49,15 @@ private:
     char finalTextCharacter = '\0';
     char lineBreakCharacter = '\n';
 public:
-    void printText(char *str) {
+    void print(char *str) {
         bool isLineBreak = false;
         char character = this->finalTextCharacter;
         for(int i = 0; str[i] != this->finalTextCharacter; ++i)
         {
-            isLineBreak = str[i] == this->lineBreakCharacter;
-            this->cursor.setAction(isLineBreak);
-            character = (isLineBreak) ? this->finalTextCharacter : str[i];
-            this->videoMemory[this->cursor.getCursor()] = (this->videoMemory[this->cursor.getCursor()] & this->color) | character;
+            this->print(str[i]);
         }
     }
-    void printCharacter(char str) {
+    void print(char str) {
         bool isLineBreak = false;
         char character = this->finalTextCharacter;
         isLineBreak = str == this->lineBreakCharacter;
@@ -72,8 +69,7 @@ public:
 
 void print(char *str) {
    Screen screen;
-   screen.printText(str);
+   screen.print(str);
 }
-
 
 #endif
