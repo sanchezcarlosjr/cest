@@ -1,8 +1,9 @@
 cest.img:
 	cp /usr/share/edk2-ovmf/x64/OVMF_VARS.fd ./OVMF_VARS.fd
-	cd src && make && mv cest.efi ../cest.efi
+	cd src && make && mv cest.efi ../cest.efi && mv kernel.elf ../kernel.elf
 	mkdir -p EFI/BOOT/
 	mv cest.efi EFI/BOOT/BOOTX64.efi
+	mv kernel.elf EFI/BOOT/kernel.elf
 	dd if=/dev/zero of=cest.img bs=512 count=93750
 	parted cest.img -s -a minimal mklabel gpt
 	parted cest.img -s -a minimal mkpart EFI FAT16 2048s 93716s

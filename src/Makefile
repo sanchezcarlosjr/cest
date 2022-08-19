@@ -1,18 +1,9 @@
-# define which architecture you're targeting
-ARCH = x86_64
-# define your target file here
 TARGET = cest.efi
-#define your sources here
-SRCS = $(wildcard *.c)
-# define your default compiler flags
-CFLAGS = -pedantic -Wall -Wextra -Werror --ansi -O2
-# define your default linker flags
-#LDFLAGS =
-# define your additional libraries here
-#LIBS = -lm
+SRCS = exit_bs.c
+ALSO = kernel.elf
 
-# leave the hard work and all the rest to posix-uefi
-
-# set this if you want GNU gcc + ld + objcopy instead of LLVM Clang + Lld
-#USE_GCC = 1
+#USE_GCC=1
 include uefi/Makefile
+
+kernel.elf:
+	@make -C kernel all USE_GCC=$(USE_GCC)
