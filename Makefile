@@ -19,6 +19,9 @@ virtualize:
 		-net none \
 		-drive file=cest.img,if=ide,format=raw
 
+run:
+	uefi-run -b /usr/share/edk2-ovmf/x64/OVMF.fd -q /bin/qemu-system-x86_64 EFI/BOOT/BOOTX64.efi
+
 clean:
 	-rm *.img
 	-rm -rf EFI
