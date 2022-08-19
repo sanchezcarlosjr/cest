@@ -38,6 +38,7 @@ Prerequisites
 *.fd
 *.img
 EFI/
+*.efi
 
 
 # Debug files
