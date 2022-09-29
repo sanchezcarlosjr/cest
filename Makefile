@@ -26,6 +26,7 @@ run:
 
 on_internet:
 	echo "Use Tigervnc. Connect your operating system using uri and port provided by ngrok."
+	sleep 2
 	ngrok tcp 5900
 
 
