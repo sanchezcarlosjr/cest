@@ -78,7 +78,7 @@ void _start(bootparam_t *bootpar)
     for(i = 0; i < bootp->width * bootp->height; i++)
         bootp->framebuffer[i] = 0x000008;
 
-    printString(10, 10, "CEST Operating System 0.1.\n Welcome!\n>");
+    printString(10, 10, "CEST Operating System v0.1 \n Welcome Miguel!\n>");
     for(i = 0; i < bootp->argc; i++)
         printString(20, 10 + (i + 1) * font->height, bootp->argv[i]);
 
