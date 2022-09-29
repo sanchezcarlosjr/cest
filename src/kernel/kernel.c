@@ -1,3 +1,4 @@
+
 #include "bootparam.h"
 
 bootparam_t *bootp;
@@ -67,7 +68,9 @@ void printString(int x, int y, char *s)
     }
 }
 
-
+/**
+ * Example "kernel"
+ */
 void _start(bootparam_t *bootpar)
 {
     int i;
@@ -75,8 +78,9 @@ void _start(bootparam_t *bootpar)
     for(i = 0; i < bootp->width * bootp->height; i++)
         bootp->framebuffer[i] = 0x000008;
 
-    printString("CEST Operating System v0.1\n");
-    printString(">");
+    printString(10, 10, "CEST Operating System 0.1.\n Welcome!\n>");
+    for(i = 0; i < bootp->argc; i++)
+        printString(20, 10 + (i + 1) * font->height, bootp->argv[i]);
 
     /* there's nowhere to return to, hang */
     while(1);
