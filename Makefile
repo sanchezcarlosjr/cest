@@ -23,6 +23,12 @@ virtualize:
 run:
 	uefi-run -b /usr/share/edk2-ovmf/x64/OVMF.fd -q /bin/qemu-system-x86_64 EFI/BOOT/BOOTX64.efi
 
+
+on_internet:
+	echo "Use Tigervnc. Connect your operating system using uri and port provided by ngrok."
+	ngrok tcp 5900
+
+
 clean:
 	-rm *.img
 	-rm -rf EFI
