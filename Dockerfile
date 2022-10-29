@@ -52,6 +52,8 @@ RUN make
 
 RUN cp /usr/share/OVMF/OVMF_CODE.fd /cest/OVMF_CODE.fd
 RUN cp /usr/share/OVMF/OVMF_VARS.fd /cest/OVMF_VARS.fd
-RUN chmod 777 -R /cest
+RUN chmod 006 OVMF_CODE.fd
+RUN chmod 006 OVMF_VARS.fd
+RUN chmod 006 cest.img
 
 CMD ["sh", "-c", "chown app:app /cest /dev/stdout && exec gosu app supervisord"]
