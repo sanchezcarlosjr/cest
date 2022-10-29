@@ -1,5 +1,4 @@
 cest.img:
-	cp /usr/share/edk2-ovmf/x64/OVMF_VARS.fd ./OVMF_VARS.fd
 	cd src && make && mv cest.efi ../cest.efi && mv kernel.elf ../kernel.elf
 	mkdir -p EFI/BOOT/
 	mv cest.efi EFI/BOOT/BOOTX64.efi
@@ -15,13 +14,13 @@ cest.img:
 
 virtualize:
 	qemu-system-x86_64 -cpu qemu64 \
-		-drive if=pflash,format=raw,readonly=on,file=/usr/share/edk2-ovmf/x64/OVMF_CODE.fd \
+		-drive if=pflash,format=raw,readonly=on,file=OVMF_CODE.fd \
 		-drive if=pflash,format=raw,file=OVMF_VARS.fd \
 		-net none \
 		-drive file=cest.img,if=ide,format=raw
 
 run:
-	uefi-run -b /usr/share/edk2-ovmf/x64/OVMF.fd -q /bin/qemu-system-x86_64 EFI/BOOT/BOOTX64.efi
+	uefi-run -b /usr/share/OVMF/OVMF.fd -q /bin/qemu-system-x86_64 EFI/BOOT/BOOTX64.efi
 
 
 on_internet:

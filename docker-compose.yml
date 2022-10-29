@@ -1,0 +1,7 @@
+version: '3.0'
+
+services:
+  cest:
+    build: .
+    ports:
+      - "8080:8081"
