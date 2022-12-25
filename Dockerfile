@@ -37,6 +37,14 @@ RUN apt-get install -y --no-install-recommends mtools
 
 RUN apt-get install -y --no-install-recommends udev
 
+RUN apt-get install -y --no-install-recommends nasm
+
+RUN apt-get install -y --no-install-recommends gdb
+ 
+RUN apt-get install -y --no-install-recommends binutils
+
+RUN apt-get install -y --no-install-recommends zip
+
 COPY --from=easy-novnc-build /bin/easy-novnc /usr/local/bin/
 COPY supervisord.conf /etc/
 EXPOSE 8080
@@ -53,7 +61,7 @@ RUN make
 RUN cp /usr/share/OVMF/OVMF_CODE.fd /cest/OVMF_CODE.fd
 RUN cp /usr/share/OVMF/OVMF_VARS.fd /cest/OVMF_VARS.fd
 RUN chmod 006 OVMF_CODE.fd
-RUN chmod 006 OVMF_VARS.fd
-RUN chmod 006 cest.img
+
 
 CMD ["sh", "-c", "chown app:app /cest /dev/stdout && exec gosu app supervisord"]
+# ENTRYPOINT ["tail", "-f", "/dev/null"] # For debugging purposes.

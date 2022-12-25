@@ -1,9 +1,58 @@
-TARGET = cest.efi
-SRCS = exit_bs.c
-ALSO = kernel.elf
+#
+#
+# Copyright (C) 2017 - 2021 bzt (bztsrc@gitlab)
+#
+# Permission is hereby granted, free of charge, to any person
+# obtaining a copy of this software and associated documentation
+# files (the "Software"), to deal in the Software without
+# restriction, including without limitation the rights to use, copy,
+# modify, merge, publish, distribute, sublicense, and/or sell copies
+# of the Software, and to permit persons to whom the Software is
+# furnished to do so, subject to the following conditions:
+#
+# The above copyright notice and this permission notice shall be
+# included in all copies or substantial portions of the Software.
+#
+# THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+# EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+# MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+# NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT
+# HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY,
+# WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+# OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
+# DEALINGS IN THE SOFTWARE.
+#
+# This file is part of the BOOTBOOT Protocol package.
+# @brief An example Makefile for sample kernel
+#
+#
 
-#USE_GCC=1
-include uefi/Makefile
+CFLAGS = -Wall -fpic -ffreestanding -fno-stack-protector -nostdinc -nostdlib -I../bootboot/dist/
+LDFLAGS =  -nostdlib -n -T link.ld
+STRIPFLAGS =  -s -K mmio -K fb -K bootboot -K environment -K initstack
 
-kernel.elf:
-	@make -C kernel all USE_GCC=$(USE_GCC)
+all: cest.x86_64.elf cest.aarch64.elf cest.riscv64.elf
+
+cest.x86_64.elf: kernel.c
+	clang -target x86_64-elf $(CFLAGS) -mno-red-zone -c kernel.c -o kernel.o
+	ld -r -b binary -o font.o font.psf
+	ld $(LDFLAGS) kernel.o font.o -o cest.x86_64.elf
+	strip $(STRIPFLAGS) cest.x86_64.elf
+	readelf -hls cest.x86_64.elf >cest.x86_64.txt
+
+cest.aarch64.elf: kernel.c
+	aarch64-elf-gcc $(CFLAGS) -c kernel.c -o kernel.o
+	aarch64-elf-ld -r -b binary -o font.o font.psf
+	aarch64-elf-ld $(LDFLAGS) kernel.o font.o -o cest.aarch64.elf
+	aarch64-elf-strip $(STRIPFLAGS) cest.aarch64.elf
+	aarch64-elf-readelf -hls cest.aarch64.elf >cest.aarch64.txt
+
+cest.riscv64.elf: kernel.c
+	riscv64-elf-gcc $(CFLAGS) -c kernel.c -o kernel.o
+	riscv64-elf-ld -r -b binary -o font.o font.psf
+	riscv64-elf-ld $(LDFLAGS) kernel.o font.o -o cest.riscv64.elf
+	riscv64-elf-strip $(STRIPFLAGS) cest.riscv64.elf
+	riscv64-elf-readelf -hls cest.riscv64.elf >cest.riscv64.txt
+
+clean:
+	rm *.o *.elf *.txt || true

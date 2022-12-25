@@ -1,15 +1,6 @@
-# Getting started
-0. Give a star to this repository.
+# Docs. Tutorials. Explanation.
+[Docs](https://sanchezcarlosjr.com/CEST%20OS%20Your%20modern%20simple%20operating%20system%20from%20s%20bd5fd44063384590b98aaba24ae965f1)
 
-1. Clone this repository.
-```
-git clone https://github.com/sanchezcarlosjr/cest.git
-```
-
-2. Compile.
-```
-make first-time
-```
 # YouTube
 [Tutorial](https://www.youtube.com/watch?v=u90ViTrzQ3I&t=61s)
 

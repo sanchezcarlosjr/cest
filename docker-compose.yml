@@ -3,6 +3,8 @@ version: '3.0'
 services:
   cest:
     build: .
+    volumes:
+      - ./src:/cest/src
     ports:
       - 8081:8080
     restart: always

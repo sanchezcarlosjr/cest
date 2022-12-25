@@ -1,7 +1,7 @@
 /*
- * stat.c
+ * mykernel/c/link.ld
  *
- * Copyright (C) 2021 bzt (bztsrc@gitlab)
+ * Copyright (C) 2017 - 2021 bzt (bztsrc@gitlab)
  *
  * Permission is hereby granted, free of charge, to any person
  * obtaining a copy of this software and associated documentation
@@ -23,46 +23,33 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
  * DEALINGS IN THE SOFTWARE.
  *
- * This file is part of the POSIX-UEFI package.
- * @brief Implementing functions which are defined in sys/stat.h
+ * This file is part of the BOOTBOOT Protocol package.
+ * @brief An example linker script for sample kernel
  *
  */
 
-#include <uefi.h>
-
-/* fstat is in stdio.c because we can't access static variables otherwise... */
-
-int stat (const char_t *__file, struct stat *__buf)
+mmio        = 0xfffffffff8000000;              /* these are configurable for level 2 loaders */
+fb          = 0xfffffffffc000000;
+bootboot    = 0xffffffffffe00000;
+environment = 0xffffffffffe01000;
+/* initstack = 1024; */
+PHDRS
 {
-    int ret;
-    FILE *f;
-
-    if(!__file || !*__file || !__buf) {
-        errno = EINVAL;
-        return -1;
-    }
-    f = fopen(__file, CL("*"));
-    if(!f) {
-        memset(__buf, 0, sizeof(struct stat));
-        return -1;
-    }
-    ret = fstat(f, __buf);
-    fclose(f);
-    return ret;
+  boot PT_LOAD;                                /* one single loadable segment */
 }
-
-extern int mkdir (const char_t *__path, mode_t __mode)
+SECTIONS
 {
-    FILE *f;
-    (void)__mode;
-    if(!__path || !*__path) {
-        errno = EINVAL;
-        return -1;
-    }
-    f = fopen(__path, CL("wd"));
-    if(!f) {
-        return -1;
-    }
-    fclose(f);
-    return 0;
+    . = 0xffffffffffe02000;
+    .text : {
+        KEEP(*(.text.boot)) *(.text .text.*)   /* code */
+        *(.rodata .rodata.*)                   /* data */
+        *(.data .data.*)
+    } :boot
+    .bss (NOLOAD) : {                          /* bss */
+        . = ALIGN(16);
+        *(.bss .bss.*)
+        *(COMMON)
+    } :boot
+
+    /DISCARD/ : { *(.eh_frame) *(.comment) }
 }
