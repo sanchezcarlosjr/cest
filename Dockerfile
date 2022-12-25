@@ -45,6 +45,9 @@ RUN apt-get install -y --no-install-recommends binutils
 
 RUN apt-get install -y --no-install-recommends zip
 
+RUN apt-get install -y --no-install-recommends socat
+
+
 COPY --from=easy-novnc-build /bin/easy-novnc /usr/local/bin/
 COPY supervisord.conf /etc/
 EXPOSE 8080

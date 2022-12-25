@@ -55,7 +55,8 @@ rom: initrd.rom
 	qemu-system-x86_64 -option-rom bootboot/dist/bootboot.bin -option-rom initrd.rom -serial stdio
 
 bios:
-	qemu-system-x86_64 -drive file=disk-x86.img,format=raw -serial stdio
+	# https://unix.stackexchange.com/questions/426652/connect-to-running-qemu-instance-with-qemu-monitor
+	qemu-system-x86_64 -d int -drive file=disk-x86.img,format=raw -serial stdio -monitor unix:qemu-monitor-socket,server,nowait
 
 cdrom:
 	qemu-system-x86_64 -cdrom disk-x86.img -serial stdio
