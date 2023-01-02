@@ -10,3 +10,6 @@
 # My social media:
 https://sanchezcarlosjr.com/
 https://twitter.com/CharllierJr
+
+# Acknowledgements
+bzt / bootboot · GitLab. (2023, January 02). Retrieved from https://gitlab.com/bztsrc/bootboot
